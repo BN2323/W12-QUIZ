@@ -23,6 +23,7 @@ class _NewItemState extends State<NewItem> {
   final _quantityController = TextEditingController();
   GroceryCategory _selectedCategory = defaultCategory;
 
+  Grocery? newGrocery;
   @override
   void initState() {
     super.initState();
@@ -47,6 +48,14 @@ class _NewItemState extends State<NewItem> {
 
   void onAdd() {
     // Will be implemented later - Create and return the new grocery
+    newGrocery = Grocery(
+      id: _nameController.text, 
+      name: _nameController.text, 
+      quantity: 1, 
+    category: _selectedCategory
+    );
+
+    Navigator.of(context).pop<Grocery>(newGrocery);
   }
 
   @override
@@ -76,7 +85,8 @@ class _NewItemState extends State<NewItem> {
                 Expanded(
                   child: DropdownButtonFormField<GroceryCategory>(
                     initialValue: _selectedCategory,
-                    items: [  ],
+                    items: [
+                      ...GroceryCategory.values.toList().map((value) => DropdownMenuItem(value: value, child: Text(value.name),))],
                     onChanged: (value) {
                       if (value != null) {
                         setState(() {
